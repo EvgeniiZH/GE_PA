@@ -2,15 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import random
 
+
 def home(request):
-    return render(request,'generator/home.html')
+    password = 'Нажми кнопку сгенерировать пароль'
+    return render(request, 'generator/home.html', {'password': password})
 
 
-def description(request):
-    return render(request,'generator/description.html')
-
-
-def password(request):
+def generate_password(request):
     digits = '0123456789'
     lowercase_letters = list('abcdefghijklmnopqrstuvwxyz')
     uppercase_letters = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
@@ -27,13 +25,14 @@ def password(request):
         chars += digits
 
     if request.GET.get('special'):
+        # print(request.GET.get('special'))
         chars += punctuation
 
     if request.GET.get('n_simb'):
-        chars = str(''.join([i for i in chars if i not in  amb]))
+        chars = str(''.join([i for i in chars if i not in amb]))
 
-    thepassword = ''
+    password = ''
     for i in range(length):
-        thepassword += random.choice(chars)
+        password += random.choice(chars)
 
-    return render(request, 'generator/password.html', {'password':thepassword})
+    return render(request, 'generator/home.html', {'password': password})
